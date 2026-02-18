@@ -1,0 +1,9 @@
+{
+  "name": "@bridge-pdf/core",
+  "version": "0.1.0",
+  "main": "src/BridgePDF.js",
+  "type": "module",
+  "dependencies": {
+    "pdfjs-dist": "^4.0.0"
+  }
+}

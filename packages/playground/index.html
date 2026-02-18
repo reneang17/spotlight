@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BridgePDF Playground</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- Landing View -->
+    <div id="landing-view">
+        <h1>Spotlight</h1>
+        <div class="upload-btn-wrapper">
+            <button class="btn">Upload a PDF</button>
+            <input type="file" id="file-upload" accept=".pdf" />
+        </div>
+        <p style="color: #666;">or</p>
+        <button id="load-demo" style="background:none; border:none; color: #007bff; cursor: pointer; text-decoration: underline;">Load Demo Document</button>
+    </div>
+
+    <!-- Viewer View -->
+    <div id="viewer-view" class="hidden">
+        <div id="app">
+        <aside class="sidebar">
+            <h2>Controls</h2>
+            <div class="control-group">
+                <button id="back-home" style="width: 100%; margin-bottom: 1rem;">&larr; Back to Home</button>
+            </div>
+            <!-- Removed Document Select Logic from UI in favor of Landing Page -->
+            
+            <div class="control-group">
+                <label>Navigation</label>
+                <div class="nav-controls">
+                    <button id="prev-page">Prev</button>
+                    <span>
+                        Page <input type="number" id="page-input" min="1" value="1" style="width: 50px;"> of <span id="total-pages">0</span>
+                    </span>
+                    <button id="next-page">Next</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Zoom</label>
+                <div class="nav-controls">
+                    <button id="zoom-out">-</button>
+                    <span id="zoom-level">100%</span>
+                    <button id="zoom-in">+</button>
+                    <button id="zoom-reset">Reset</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>Definition <span id="quality-val">1.0</span></label>
+                <input type="range" id="quality-slider" min="0.5" max="3.0" step="0.5" value="1.0" style="width: 100%;">
+            </div>
+
+            <div class="control-group">
+                <label><input type="checkbox" id="toggle-thumbnails"> Enable Thumbnails</label>
+                <label><input type="checkbox" id="toggle-annotations" checked> Enable Annotations</label>
+            </div>
+        </aside>
+
+        <div id="thumbnail-container" class="thumbnail-sidebar"></div>
+
+        <main class="preview">
+            <div id="pdf-container" class="pdf-container"></div>
+        </main>
+
+        <aside class="code-panel">
+            <h2>Code Export</h2>
+            <pre><code id="code-output"></code></pre>
+        </aside>
+        </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

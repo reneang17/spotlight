@@ -1,0 +1,12 @@
+{
+  "name": "@bridge-pdf/playground",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@bridge-pdf/core": "*",
+    "vite": "^5.0.0"
+  }
+}

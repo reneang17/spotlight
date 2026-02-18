@@ -1,0 +1,195 @@
+:root {
+  --bg-color: #f5f5f5;
+  --sidebar-bg: #fff;
+  --border-color: #ddd;
+  --text-color: #333;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px; /* Default: No thumbnails */
+  height: 100vh;
+}
+
+#app.with-thumbnails {
+  grid-template-columns: 250px 200px 1fr 300px; /* With thumbnails */
+}
+
+.thumbnail-sidebar {
+    background: #f0f0f0;
+    border-right: 1px solid var(--border-color);
+    padding: 1rem;
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+}
+
+.thumbnail-sidebar.visible {
+    display: block;
+}
+
+aside {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.code-panel {
+  border-left: 1px solid var(--border-color);
+  border-right: none;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.preview {
+  padding: 2rem;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.pdf-container {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: white;
+  min-height: 800px;
+  min-width: 600px;
+  /* Ensure container has some structure */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+/* BridgePDF Page Container */
+.bridge-page-container {
+    background: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+canvas {
+  display: block;
+}
+
+/* Text Layer Styles */
+.textLayer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0.25;
+    line-height: 1.0;
+    pointer-events: none; /* Let clicks pass through if needed, but we want text selection */
+}
+
+/* Enable pointer events for text selection */
+.textLayer {
+    pointer-events: auto;
+}
+
+.textLayer > span {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+}
+
+/* Highlight selection */
+::selection {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.bridge-thumbnail {
+    border: 2px solid transparent; /* Reserve space for border */
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.bridge-thumbnail:hover {
+    transform: scale(1.02);
+}
+
+
+.bridge-thumbnail.active {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* Landing Page */
+#landing-view {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+#landing-view h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
