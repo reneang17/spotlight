@@ -22,6 +22,8 @@ const zoomResetBtn = document.getElementById('zoom-reset');
 const zoomLevelSpan = document.getElementById('zoom-level');
 const qualitySlider = document.getElementById('quality-slider');
 const qualityVal = document.getElementById('quality-val');
+const togglePaperBtn = document.getElementById('toggle-paper');
+const toggleDarkBtn = document.getElementById('toggle-dark');
 
 // Initialize BridgePDF (Empty initially)
 const bridge = new BridgePDF(container, {
@@ -178,6 +180,20 @@ toggleAnnotations.addEventListener('change', (e) => {
     // Force re-render of current view
     // A full reload is safest for MVP to ensure layers are added/removed correctly
     bridge.loadDocument(); // Reloads current document
+});
+
+togglePaperBtn.addEventListener('click', () => {
+    const isPaper = bridge.togglePaperMode();
+    togglePaperBtn.textContent = isPaper ? "Disable Paper Mode" : "Enable Paper Mode";
+    // Ensure Dark Mode UI is reset if mutually exclusive (handled by controller but update UI)
+    if (isPaper) toggleDarkBtn.textContent = "Enable Dark Mode";
+});
+
+toggleDarkBtn.addEventListener('click', () => {
+    const isDark = bridge.toggleDarkMode();
+    toggleDarkBtn.textContent = isDark ? "Disable Dark Mode" : "Enable Dark Mode";
+    // Reset Paper Mode UI
+    if (isDark) togglePaperBtn.textContent = "Enable Paper Mode";
 });
 
 function updateUI() {

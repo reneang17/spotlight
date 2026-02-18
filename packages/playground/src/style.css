@@ -80,6 +80,25 @@ aside {
 .bridge-page-container {
     background: white;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    transition: filter 0.3s ease;
+}
+
+/* Paper Theme (Sepia) */
+.theme-paper .bridge-page-container canvas {
+    filter: sepia(30%) contrast(90%) brightness(95%);
+}
+
+.theme-paper .bridge-page-container {
+    background-color: #fdf6e3; /* Solarized Light background */
+}
+
+/* Dark Theme (Inverted) */
+.theme-dark .bridge-page-container canvas {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+.theme-dark .bridge-page-container {
+    background-color: #333;
 }
 
 canvas {

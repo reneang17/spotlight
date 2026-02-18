@@ -3,6 +3,7 @@ import { EventBus } from './EventBus.js';
 import { SmartWorker } from './utils/SmartWorker.js';
 
 import { ThumbnailViewer } from './utils/ThumbnailViewer.js';
+import { ThemeController } from './utils/ThemeController.js';
 
 export class BridgePDF {
   constructor(container, options = {}) {
@@ -23,6 +24,9 @@ export class BridgePDF {
       zoomLevel: this.options.scale,
       renderQuality: this.options.quality || window.devicePixelRatio || 1.0,
       renderingQueue: new Set(),
+      aspectRatio: null, // Width / Height
+      originalWidth: 0,
+      originalHeight: 0,
     };
 
     this.eventBus = new EventBus();
@@ -31,11 +35,21 @@ export class BridgePDF {
     SmartWorker.configure(this.options.workerUrl);
 
     this.thumbnailViewer = new ThumbnailViewer(this);
+    this.themeController = new ThemeController(this.container);
 
     // Bind methods
     this.loadDocument = this.loadDocument.bind(this);
     this.renderPage = this.renderPage.bind(this);
+    this.renderThumbnail = this.renderThumbnail.bind(this);
     this.goToPage = this.goToPage.bind(this);
+  }
+
+  togglePaperMode() {
+      return this.themeController.togglePaperMode();
+  }
+
+  toggleDarkMode() {
+      return this.themeController.toggleDarkMode();
   }
 
   setThumbnailContainer(container) {
@@ -135,13 +149,17 @@ export class BridgePDF {
       const firstPage = await this.state.pdfDocument.getPage(1);
       const viewport = firstPage.getViewport({ scale: 1.0 });
       
+      this.state.aspectRatio = viewport.width / viewport.height;
+      this.state.originalWidth = viewport.width;
+      this.state.originalHeight = viewport.height;
+
       this.eventBus.emit('document-loaded', { 
         totalPages: this.state.totalPages,
         pdfDocument: this.state.pdfDocument,
         proportions: {
             width: viewport.width,
             height: viewport.height,
-            aspectRatio: viewport.width / viewport.height
+            aspectRatio: this.state.aspectRatio
         }
       });
 
@@ -160,10 +178,12 @@ export class BridgePDF {
     this.container.innerHTML = ''; // Clear existing
     this.pageMap = new Map(); // Store page elements
     
-    // Get dimensions of the first page to estimate others
-    const firstPage = await this.state.pdfDocument.getPage(1);
-    const viewport = firstPage.getViewport({ scale: this.state.zoomLevel });
-    const { width, height } = viewport;
+    // dimensions based on ZOOM level and ASPECT RATIO
+    // If we have original width, we scale it.
+    // However, usually we want to fit to width or similar. 
+    // Here we use scale as a multiplier of original size (standard PDF.js behavior)
+    const width = this.state.originalWidth * this.state.zoomLevel;
+    const height = width / this.state.aspectRatio;
 
     // Create placeholders
     for (let i = 1; i <= this.state.totalPages; i++) {
@@ -229,6 +249,28 @@ export class BridgePDF {
       });
   }
 
+  // Unified Rendering Method
+  async renderPageToContext(pageNumber, canvasContext, scale = 1.0, quality = 1.0) {
+      const page = await this.state.pdfDocument.getPage(pageNumber);
+      
+      // Calculate viewport based on scale
+      // If we simply want to match width?
+      // For now, let's respect the requested scale.
+      const viewport = page.getViewport({ scale });
+      
+      const transform = [quality, 0, 0, quality, 0, 0];
+      
+      const renderContext = {
+        canvasContext,
+        viewport,
+        transform
+      };
+      
+      await page.render(renderContext).promise;
+      
+      return viewport;
+  }
+
   async renderPage(pageNumber) {
     if (!this.state.pdfDocument) return;
     const pageData = this.pageMap.get(pageNumber);
@@ -238,13 +280,14 @@ export class BridgePDF {
       this.state.renderingQueue.add(pageNumber);
       this.eventBus.emit('page-rendering', { pageNumber });
 
-      const page = await this.state.pdfDocument.getPage(pageNumber);
-      const viewport = page.getViewport({ scale: this.state.zoomLevel });
       const pageContainer = pageData.element;
-
-      // Update dimensions if different from estimate
-      pageContainer.style.width = `${viewport.width}px`;
-      pageContainer.style.height = `${viewport.height}px`;
+      
+      // Current dimensions from layout
+      // We want to fill the container width/height ideally
+      // Or rather, we set the container size based on zoom.
+      // So render scale should match zoom level.
+      const scale = this.state.zoomLevel;
+      const quality = this.state.renderQuality;
 
       // Create canvas
       let canvas = pageContainer.querySelector('canvas');
@@ -254,24 +297,31 @@ export class BridgePDF {
       }
 
       const context = canvas.getContext('2d');
-      const quality = this.state.renderQuality;
       
+      // We need to fetch page to get viewport for canvas sizing
+      // But we can estimate from aspect ratio + zomm
+      // However, renderPageToContext fetches page anyway.
+      
+      // Let's get the page first to confirm dimensions
+      const page = await this.state.pdfDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
+      
+      // Update container if needed (should match initVirtualization)
+      if (Math.abs(parseFloat(pageContainer.style.width) - viewport.width) > 1) {
+          pageContainer.style.width = `${viewport.width}px`;
+          pageContainer.style.height = `${viewport.height}px`;
+      }
+
       // Canvas dimensions depend on quality (pixel density)
       canvas.height = Math.floor(viewport.height * quality);
       canvas.width = Math.floor(viewport.width * quality);
       
-      // CSS dimensions remain based on viewport (layout size)
+      // CSS dimensions match viewport
       canvas.style.width = `${viewport.width}px`;
       canvas.style.height = `${viewport.height}px`;
 
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport,
-        transform: [quality, 0, 0, quality, 0, 0] // Scale rendering by quality
-      };
-
-      const renderTask = page.render(renderContext);
-      await renderTask.promise;
+      // Use unified render
+      await this.renderPageToContext(pageNumber, context, scale, quality);
 
       // Text Layer
       if (this.options.enableTextLayer !== false) {
@@ -282,14 +332,12 @@ export class BridgePDF {
             pageContainer.appendChild(textLayerDiv);
         }
         
-        // Clear previous text layer content if any
         textLayerDiv.innerHTML = '';
         textLayerDiv.style.width = `${viewport.width}px`;
         textLayerDiv.style.height = `${viewport.height}px`;
 
         const textContent = await page.getTextContent();
         
-        // PDF.js v4+ TextLayer API
         const textLayer = new pdfjsLib.TextLayer({
             textContentSource: textContent,
             container: textLayerDiv,
@@ -309,17 +357,14 @@ export class BridgePDF {
           
           annotationLayerDiv.innerHTML = '';
           annotationLayerDiv.style.width = `${viewport.width}px`;
-          // textLayerDiv = pageContainer.querySelector('.textLayer'); // Removed causing ReferenceError
-          // Ensure styles for annotation layer
           annotationLayerDiv.style.position = 'absolute';
           annotationLayerDiv.style.left = '0';
           annotationLayerDiv.style.top = '0';
-          annotationLayerDiv.style.pointerEvents = 'none'; // Allow clicks to pass through empty areas
+          annotationLayerDiv.style.pointerEvents = 'none'; 
           
           const annotations = await page.getAnnotations();
           this.renderAnnotations(annotations, annotationLayerDiv, viewport);
       }
-
 
       pageData.rendered = true;
       this.state.renderingQueue.delete(pageNumber);
@@ -332,33 +377,47 @@ export class BridgePDF {
     }
   }
 
+  // Public method for thumbnails to use
+  async renderThumbnail(pageNumber, canvas, width) {
+      // Calculate scale to fit width
+      // width = originalWidth * scale
+      // scale = width / originalWidth
+      const scale = width / this.state.originalWidth;
+      const quality = this.state.renderQuality;
+      
+      const context = canvas.getContext('2d');
+      // Set dimensions
+      const height = width / this.state.aspectRatio;
+      
+      canvas.width = Math.floor(width * quality);
+      canvas.height = Math.floor(height * quality);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      return this.renderPageToContext(pageNumber, context, scale, quality);
+  }
+
   renderAnnotations(annotations, container, viewport) {
       annotations.forEach(annotation => {
           if (!annotation.rect) return;
           const rect = viewport.convertToViewportRectangle(annotation.rect);
-          // Rect is [x1, y1, x2, y2]
-          // PDF coordinates: (0,0) is bottom-left usually, but viewport handles transform.
-          // Viewport rect is likely [minX, minY, maxX, maxY]
           
-          // Normalize rect
           const [x1, y1, x2, y2] = rect;
           const width = x2 - x1;
-          const height = y2 - y1; // Or y1 - y2 depending on coordinate system, standard viewport returns correct display coords?
-          // Actually viewport.convertToViewportRectangle returns [xMin, yMin, xMax, yMax]
+          const height = y2 - y1; 
           
-          // Let's assume standard behavior:
           const x = Math.min(x1, x2);
-          const y = Math.min(y1, y2); // Top-left
+          const y = Math.min(y1, y2); 
           const w = Math.abs(x2 - x1);
           const h = Math.abs(y2 - y1);
           
-          const element = document.createElement('div'); // Default wrapper
+          const element = document.createElement('div'); 
           element.style.position = 'absolute';
           element.style.left = `${x}px`;
           element.style.top = `${y}px`;
           element.style.width = `${w}px`;
           element.style.height = `${h}px`;
-          element.style.pointerEvents = 'auto'; // Enable interaction
+          element.style.pointerEvents = 'auto'; 
           
           if (annotation.subtype === 'Link' && annotation.url) {
               const link = document.createElement('a');
@@ -371,9 +430,7 @@ export class BridgePDF {
               element.appendChild(link);
               container.appendChild(element);
           } else if (annotation.subtype === 'Widget') {
-              // Simple form field handling
-              // This is a minimal implementation as requested
-              if (annotation.fieldType === 'Tx') { // Text
+              if (annotation.fieldType === 'Tx') { 
                   const input = document.createElement('input');
                   input.style.width = '100%';
                   input.style.height = '100%';
@@ -381,14 +438,9 @@ export class BridgePDF {
                   element.appendChild(input);
                   container.appendChild(element);
               }
-              // Add other types as needed
           }
-          // render other annotations if needed
       });
   }
-
-
-
 
   destroy() {
     if (this.observer) this.observer.disconnect();
