@@ -176,14 +176,14 @@ body {
     .pdf-container {
         min-width: 100vw;
         width: 100vw;
-        overflow-x: hidden;
+        overflow-x: auto;
     }
 
     /* Remove padding for edge-to-edge PDF on mobile */
     .preview {
         padding: 0 !important;
         width: 100vw;
-        overflow-x: hidden;
+        overflow-x: auto;
     }
 
     /* Remove gaps between pages on mobile for continuous feel */
