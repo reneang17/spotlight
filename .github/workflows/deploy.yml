@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: packages/playground/dist
+          path: playground/dist
 
   deploy:
     needs: build
