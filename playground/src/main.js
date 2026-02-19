@@ -34,11 +34,31 @@ toggleSidebarBtn.addEventListener('click', () => {
     // Resize bridge to fit new width
     setTimeout(() => {
         themeController.updateSpotlightPosition();
-    }, 300); // Wait for transition if any, or immediate
+    }, 300); 
 });
 
-// Auto-collapse on mobile/small screens initially
-if (window.innerWidth <= 768) {
+// Mobile Menu Logic
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const sidebar = document.querySelector('.sidebar');
+
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent closing immediately
+        sidebar.classList.toggle('open');
+    });
+}
+
+// Close mobile sidebar when clicking outside
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+        if (!sidebar.contains(e.target) && e.target !== mobileMenuBtn) {
+            sidebar.classList.remove('open');
+        }
+    }
+});
+
+// Auto-collapse on desktop small screens, but on mobile we use CSS to hide/show
+if (window.innerWidth > 768 && window.innerWidth <= 1024) {
     appContainer.classList.add('sidebar-collapsed');
 }
 

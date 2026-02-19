@@ -104,42 +104,98 @@ body {
   align-items: center; 
 }
 
+/* Default state for mobile menu btn on desktop */
+.mobile-menu-btn {
+    display: none;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    /* Auto-fit width on mobile */
-    .pdf-container {
-        min-width: 100%;
-        width: 100%;
-        overflow-x: hidden; /* Prevent horizontal scroll from container */
+    /* Hide desktop toggle */
+    .sidebar-toggle {
+        display: none;
     }
 
-    /* Interactive Mobile Sidebar (Overlay) */
-    #app:not(.sidebar-collapsed) {
-        position: relative;
-        display: block; 
+    /* Mobile Menu Button (Floating) */
+    .mobile-menu-btn {
+        display: block;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--btn-bg);
+        color: var(--btn-text);
+        border: 1px solid var(--btn-border);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        z-index: 1100;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Main Grid: Full width, no sidebars */
+    #app, #app.with-thumbnails, #app.sidebar-collapsed {
+        grid-template-columns: 1fr !important;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Hide Thumbnails completely on mobile */
+    .thumbnail-sidebar, #thumbnail-container {
+        display: none !important;
+    }
+
+    /* Sidebar as Bottom Sheet */
+    aside.sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        max-height: 80vh; /* Max height to pop up */
+        z-index: 1000;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+        border-radius: 16px 16px 0 0;
+        transform: translateY(105%); /* Hidden by default */
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        padding-bottom: 40px; /* Safe area */
+    }
+
+    aside.sidebar.open {
+        transform: translateY(0);
     }
     
-    #app:not(.sidebar-collapsed) aside {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 85%;
-        max-width: 300px;
-        z-index: 900;
-        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+    /* Auto-fit width on mobile */
+    .pdf-container {
+        min-width: 100vw;
+        width: 100vw;
+        overflow-x: hidden;
     }
 
     /* Remove padding for edge-to-edge PDF on mobile */
     .preview {
-        padding: 0 !important; /* Zero padding everywhere */
+        padding: 0 !important;
+        width: 100vw;
+        overflow-x: hidden;
     }
 
     /* Remove gaps between pages on mobile for continuous feel */
     .bridge-page-container {
         margin-bottom: 0 !important;
-        box-shadow: none !important; /* Optional: remove shadow for seamless look? User said "frame... reduced to zero". */
+        box-shadow: none !important;
     }
+}
+
+/* Default state for mobile menu btn on desktop */
+.mobile-menu-btn {
+    display: none;
 }
 
 aside {
