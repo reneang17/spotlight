@@ -34,7 +34,7 @@ toggleSidebarBtn.addEventListener('click', () => {
     // Resize bridge to fit new width
     setTimeout(() => {
         bridge.resize();
-        // Spotlight updates automatically via ResizeObserver
+        themeController.updateSpotlightPosition();
     }, 300); // Wait for transition if any, or immediate
 });
 
@@ -161,7 +161,8 @@ toggleThumbnails.addEventListener('change', (e) => {
         app.classList.remove('with-thumbnails');
     }
     bridge.resize();
-    // No need to manually update spotlight, ThemeController's ResizeObserver handles it
+    // Explicitly update spotlight to handle layout shift
+    themeController.updateSpotlightPosition();
 });
 
 pageInput.addEventListener('change', (e) => {
