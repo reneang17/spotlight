@@ -280,6 +280,11 @@ body {
         z-index: 900;
         box-shadow: 5px 0 15px rgba(0,0,0,0.3);
     }
+
+    /* Remove padding for edge-to-edge PDF on mobile */
+    .preview {
+        padding: 40px 0 0 0; /* Top padding for toggle button, 0 sides/bottom */
+    }
 }
 
 aside {
