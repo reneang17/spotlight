@@ -27,7 +27,7 @@ const toggleDarkBtn = document.getElementById('toggle-dark');
 
 // Initialize BridgePDF (Empty initially)
 const bridge = new BridgePDF(container, {
-  workerUrl: '/pdf.worker.min.mjs',
+  workerUrl: `${import.meta.env.BASE_URL}pdf.worker.min.mjs`,
   enableAnnotationLayer: toggleAnnotations.checked
 });
 
