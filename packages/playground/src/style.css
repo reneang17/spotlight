@@ -101,8 +101,9 @@ aside {
 }
 
 .pdf-container {
-  box-shadow: var(--page-shadow);
-  background: white; /* Actual page background remains white/paper/inverted via filter */
+  /* Remove fixed background/shadow so gaps show theme background */
+  background: transparent;
+  box-shadow: none;
   min-height: 800px;
   min-width: 600px;
   display: flex;
