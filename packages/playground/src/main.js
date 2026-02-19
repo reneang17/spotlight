@@ -164,15 +164,13 @@ function updateSpotlightPosition() {
             if (visibleLeft < visibleRight) {
                 const centerX = (visibleLeft + visibleRight) / 2;
                 document.body.style.setProperty('--spotlight-x', `${centerX}px`);
-            } else {
-                 // Off-screen? Fallback to center or keep last known?
-                 // If off screen, keeping it at 50% or clamping to edge might be better.
-                 document.body.style.setProperty('--spotlight-x', '50%');
+                spotlightRequest = null;
+                return;
             }
-        } else {
-            // Fallback to window center if container is hidden or 0 size
-            document.body.style.setProperty('--spotlight-x', '50%');
-        }
+        } 
+        
+        // Fallback
+        document.body.style.setProperty('--spotlight-x', '50%');
         spotlightRequest = null;
     });
 }

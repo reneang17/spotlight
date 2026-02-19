@@ -15,7 +15,7 @@
 
 /* Enable interpolation for spotlight variables */
 @property --spotlight-x {
-  syntax: '<length>';
+  syntax: '<length-percentage>';
   inherits: true;
   initial-value: 50%;
 }
