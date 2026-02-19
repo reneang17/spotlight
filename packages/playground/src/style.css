@@ -119,7 +119,8 @@ aside {
 }
 
 /* Paper Theme (Sepia) */
-body.theme-paper .bridge-page-container canvas {
+body.theme-paper .bridge-page-container canvas,
+body.theme-paper .bridge-thumbnail canvas {
     filter: sepia(30%) contrast(90%) brightness(95%);
 }
 
@@ -128,7 +129,8 @@ body.theme-paper .bridge-page-container {
 }
 
 /* Dark Theme (Inverted) */
-body.theme-dark .bridge-page-container canvas {
+body.theme-dark .bridge-page-container canvas,
+body.theme-dark .bridge-thumbnail canvas {
     filter: invert(100%) hue-rotate(180deg);
 }
 
