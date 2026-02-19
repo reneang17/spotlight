@@ -42,6 +42,65 @@ body.theme-dark {
     --btn-hover: #222;
 }
 
+/* Lamp Theme */
+body.theme-lamp {
+    --bg-color: #1a1510; 
+    --sidebar-bg: #2a2018; 
+    --text-color: #eccfa1;
+    --border-color: #4e3b2c;
+    
+    /* Wood texture background */
+    background-image: url('./assets/dark_wood_texture.png');
+    background-repeat: repeat;
+    background-size: 512px; 
+    
+    --btn-bg: #3e2f22;
+    --btn-text: #eccfa1;
+    --btn-border: #5c4634;
+    --btn-hover: #4e3b2c;
+}
+
+/* Lamp Mode Overlay */
+#lamp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+    
+    /* Radial gradient spotlight: 
+       Center is warm/transparent allowing content to show.
+       Edges are dark to simulate vignette/shadow.
+    */
+    background: radial-gradient(
+        circle at center, 
+        rgba(255, 200, 100, 0.1) 0%, 
+        rgba(0, 0, 0, 0.4) 40%, 
+        rgba(0, 0, 0, 0.85) 90%
+    );
+    mix-blend-mode: multiply; /* Or overlay/soft-light depending on taste */
+}
+
+/* Show overlay when lamp theme is active */
+body.theme-lamp #lamp-overlay {
+    display: block;
+}
+
+/* Lamp Theme Canvas Filters - Warm reading light */
+body.theme-lamp .bridge-page-container canvas,
+body.theme-lamp .bridge-thumbnail canvas {
+    /* Slight sepia warmth + brightness adjustment */
+    filter: sepia(30%) contrast(110%) brightness(90%);
+}
+
+body.theme-lamp .bridge-page-container {
+    background-color: #fdf6e3; /* Paper-like base */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Strong shadow for depth on desk */
+}
+
 * {
   box-sizing: border-box;
 }

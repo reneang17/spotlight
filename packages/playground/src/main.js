@@ -184,18 +184,39 @@ toggleAnnotations.addEventListener('change', (e) => {
     bridge.loadDocument(); // Reloads current document
 });
 
+const toggleLampBtn = document.getElementById('toggle-lamp');
+
 togglePaperBtn.addEventListener('click', () => {
     const isPaper = themeController.togglePaperMode();
     togglePaperBtn.textContent = isPaper ? "Disable Paper Mode" : "Enable Paper Mode";
-    // Ensure Dark Mode UI is reset if mutually exclusive (handled by controller but update UI)
-    if (isPaper) toggleDarkBtn.textContent = "Enable Dark Mode";
+    
+    // Reset others
+    if (isPaper) {
+        toggleDarkBtn.textContent = "Enable Dark Mode";
+        toggleLampBtn.textContent = "Enable Lamp Mode";
+    }
 });
 
 toggleDarkBtn.addEventListener('click', () => {
     const isDark = themeController.toggleDarkMode();
     toggleDarkBtn.textContent = isDark ? "Disable Dark Mode" : "Enable Dark Mode";
-    // Reset Paper Mode UI
-    if (isDark) togglePaperBtn.textContent = "Enable Paper Mode";
+    
+    // Reset others
+    if (isDark) {
+        togglePaperBtn.textContent = "Enable Paper Mode";
+        toggleLampBtn.textContent = "Enable Lamp Mode";
+    }
+});
+
+toggleLampBtn.addEventListener('click', () => {
+    const isLamp = themeController.toggleLampMode();
+    toggleLampBtn.textContent = isLamp ? "Disable Lamp Mode" : "Enable Lamp Mode";
+    
+    // Reset others
+    if (isLamp) {
+        togglePaperBtn.textContent = "Enable Paper Mode";
+        toggleDarkBtn.textContent = "Enable Dark Mode";
+    }
 });
 
 function updateUI() {
