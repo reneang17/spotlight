@@ -140,23 +140,40 @@ backHomeBtn.addEventListener('click', () => {
 
 
 // Spotlight Positioning Logic
-// Spotlight Positioning Logic
+let spotlightRequest = null;
+
 function updateSpotlightPosition() {
-    const pdfContainer = document.getElementById('pdf-container');
-    const rect = pdfContainer.getBoundingClientRect();
-    
-    // Check if container is visible and has width
-    if (rect.width > 0 && rect.height > 0) {
-        const centerX = rect.left + rect.width / 2;
-        document.body.style.setProperty('--spotlight-x', `${centerX}px`);
-    } else {
-        // Fallback to window center if container is hidden or 0 size
-        document.body.style.setProperty('--spotlight-x', '50%');
-    }
+    if (spotlightRequest) return;
+
+    spotlightRequest = requestAnimationFrame(() => {
+        const pdfContainer = document.getElementById('pdf-container');
+        if (!pdfContainer) {
+            spotlightRequest = null;
+            return;
+        }
+
+        const rect = pdfContainer.getBoundingClientRect();
+        
+        // Check if container is visible and has width
+        if (rect.width > 0 && rect.height > 0) {
+            const centerX = rect.left + rect.width / 2;
+            document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+        } else {
+            // Fallback to window center if container is hidden or 0 size
+            document.body.style.setProperty('--spotlight-x', '50%');
+        }
+        spotlightRequest = null;
+    });
 }
 
-// Update on resize
+// Update on resize and scroll
 window.addEventListener('resize', updateSpotlightPosition);
+// Wait for DOM to be ready to attach scroll listener or attach to a stable parent if needed.
+// main.js is a module, so DOM should be parsed. .preview is static in HTML.
+const previewContainer = document.querySelector('.preview');
+if (previewContainer) {
+    previewContainer.addEventListener('scroll', updateSpotlightPosition);
+}
 
 toggleThumbnails.addEventListener('change', (e) => {
     const app = document.getElementById('app');
