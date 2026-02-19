@@ -127,11 +127,12 @@ backHomeBtn.addEventListener('click', () => {
 
 // Spotlight Positioning Logic
 function updateSpotlightPosition() {
-    const sidebarWidth = document.getElementById('app').classList.contains('with-thumbnails') ? 450 : 250;
-    const windowWidth = window.innerWidth;
-    const centerX = sidebarWidth + (windowWidth - sidebarWidth) / 2;
-    // Set CSS variable on body or overlay
-    document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+    const preview = document.querySelector('.preview');
+    if (preview) {
+        const rect = preview.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+    }
 }
 
 // Update on resize
