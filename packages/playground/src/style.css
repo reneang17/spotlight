@@ -156,8 +156,8 @@ body.theme-lamp .bridge-page-container canvas,
 body.theme-lamp .bridge-thumbnail canvas,
 body.theme-spotlight .bridge-page-container canvas,
 body.theme-spotlight .bridge-thumbnail canvas {
-    /* Slight sepia warmth + brightness adjustment */
-    filter: sepia(30%) contrast(110%) brightness(90%);
+    /* Filter removed in favor of unified overlay mix-blend-mode */
+    filter: none;
 }
 
 body.theme-lamp .bridge-page-container,
@@ -242,38 +242,56 @@ aside {
     transition: filter 0.3s ease;
 }
 
-/* Paper Theme (Sepia) */
-/* Paper Theme (Overlay) - Ensures exact match with background */
+/* Unified Paper Tinting (Overlay) */
+/* Applies to Paper, Lamp, and Spotlight themes to ensure consistent rendering across browsers */
+
+
+body.theme-paper {
+    --paper-tint: var(--bg-color); /* Matches background */
+}
+
+body.theme-lamp,
+body.theme-spotlight {
+    --paper-tint: #fdf6e3; /* Solarized light (classic paper look) */
+}
+
 body.theme-paper .bridge-page-container,
-body.theme-paper .bridge-thumbnail {
+body.theme-paper .bridge-thumbnail,
+body.theme-lamp .bridge-page-container,
+body.theme-lamp .bridge-thumbnail,
+body.theme-spotlight .bridge-page-container,
+body.theme-spotlight .bridge-thumbnail {
     position: relative;
+    /* Ensure base is white so multiply blend works correctly */
+    background-color: #ffffff;
 }
 
 body.theme-paper .bridge-page-container::after,
-body.theme-paper .bridge-thumbnail::after {
+body.theme-paper .bridge-thumbnail::after,
+body.theme-lamp .bridge-page-container::after,
+body.theme-lamp .bridge-thumbnail::after,
+body.theme-spotlight .bridge-page-container::after,
+body.theme-spotlight .bridge-thumbnail::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--bg-color);
+    background-color: var(--paper-tint);
     mix-blend-mode: multiply;
     pointer-events: none;
     z-index: 10;
 }
 
-/* Remove filter from canvas as we use overlay now */
+/* Remove filters from canvas as we use overlay now */
 body.theme-paper .bridge-page-container canvas,
-body.theme-paper .bridge-thumbnail canvas {
+body.theme-paper .bridge-thumbnail canvas,
+body.theme-lamp .bridge-page-container canvas,
+body.theme-lamp .bridge-thumbnail canvas,
+body.theme-spotlight .bridge-page-container canvas,
+body.theme-spotlight .bridge-thumbnail canvas {
     filter: none;
-}
-
-body.theme-paper .bridge-page-container {
-     /* Background color is handled by overlay blending with white base, 
-        but we keep this for gaps or loading states if needed. 
-        Actually, for the blend to work right, the base should be white. */
-    background-color: #ffffff; 
 }
 
 /* Dark Theme (Inverted) */
