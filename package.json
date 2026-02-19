@@ -7,5 +7,6 @@
   ],
   "scripts": {
     "start": "npm run dev --workspace=@bridge-pdf/playground"
-  }
+  },
+  "license": "MIT"
 }
