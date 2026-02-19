@@ -156,8 +156,19 @@ function updateSpotlightPosition() {
         
         // Check if container is visible and has width
         if (rect.width > 0 && rect.height > 0) {
-            const centerX = rect.left + rect.width / 2;
-            document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+            // Calculate visible intersection
+            const visibleLeft = Math.max(rect.left, 0);
+            const visibleRight = Math.min(rect.right, window.innerWidth);
+            
+            // Check if ANY part is visible
+            if (visibleLeft < visibleRight) {
+                const centerX = (visibleLeft + visibleRight) / 2;
+                document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+            } else {
+                 // Off-screen? Fallback to center or keep last known?
+                 // If off screen, keeping it at 50% or clamping to edge might be better.
+                 document.body.style.setProperty('--spotlight-x', '50%');
+            }
         } else {
             // Fallback to window center if container is hidden or 0 size
             document.body.style.setProperty('--spotlight-x', '50%');
