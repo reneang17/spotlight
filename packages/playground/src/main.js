@@ -161,11 +161,11 @@ toggleThumbnails.addEventListener('change', (e) => {
         app.classList.remove('with-thumbnails');
     }
     bridge.resize();
-    // Explicitly update spotlight to handle layout shift
-    // Use setTimeout to ensure DOM reflow has completed
-    setTimeout(() => {
-        themeController.updateSpotlightPosition();
-    }, 10);
+    bridge.resize();
+    // Explicitly update spotlight multiple times to handle race conditions
+    themeController.updateSpotlightPosition(); 
+    setTimeout(() => themeController.updateSpotlightPosition(), 50);
+    setTimeout(() => themeController.updateSpotlightPosition(), 300);
 });
 
 pageInput.addEventListener('change', (e) => {
