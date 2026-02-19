@@ -33,7 +33,6 @@ toggleSidebarBtn.addEventListener('click', () => {
     appContainer.classList.toggle('sidebar-collapsed');
     // Resize bridge to fit new width
     setTimeout(() => {
-        bridge.resize();
         themeController.updateSpotlightPosition();
     }, 300); // Wait for transition if any, or immediate
 });
@@ -160,8 +159,7 @@ toggleThumbnails.addEventListener('change', (e) => {
         thumbnailContainer.classList.remove('visible');
         app.classList.remove('with-thumbnails');
     }
-    bridge.resize();
-    bridge.resize();
+
     // Explicitly update spotlight multiple times to handle race conditions
     themeController.updateSpotlightPosition(); 
     setTimeout(() => themeController.updateSpotlightPosition(), 50);
