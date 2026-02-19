@@ -283,7 +283,13 @@ body {
 
     /* Remove padding for edge-to-edge PDF on mobile */
     .preview {
-        padding: 40px 0 0 0; /* Top padding for toggle button, 0 sides/bottom */
+        padding: 0 !important; /* Zero padding everywhere */
+    }
+
+    /* Remove gaps between pages on mobile for continuous feel */
+    .bridge-page-container {
+        margin-bottom: 0 !important;
+        box-shadow: none !important; /* Optional: remove shadow for seamless look? User said "frame... reduced to zero". */
     }
 }
 
