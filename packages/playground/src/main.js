@@ -1,4 +1,5 @@
 import { BridgePDF, ThemeController } from '@bridge-pdf/core';
+import '@bridge-pdf/core/src/theme.css';
 
 const container = document.getElementById('pdf-container');
 const prevBtn = document.getElementById('prev-page');
@@ -32,8 +33,9 @@ toggleSidebarBtn.addEventListener('click', () => {
     appContainer.classList.toggle('sidebar-collapsed');
     // Resize bridge to fit new width
     setTimeout(() => {
+    setTimeout(() => {
         bridge.resize();
-        updateSpotlightPosition();
+        // Spotlight updates automatically via ResizeObserver
     }, 300); // Wait for transition if any, or immediate
 });
 
@@ -139,49 +141,11 @@ backHomeBtn.addEventListener('click', () => {
 });
 
 
-// Spotlight Positioning Logic
-let spotlightRequest = null;
-
-function updateSpotlightPosition() {
-    if (spotlightRequest) return;
-
-    spotlightRequest = requestAnimationFrame(() => {
-        const pdfContainer = document.getElementById('pdf-container');
-        if (!pdfContainer) {
-            spotlightRequest = null;
-            return;
-        }
-
-        const rect = pdfContainer.getBoundingClientRect();
-        
-        // Check if container is visible and has width
-        if (rect.width > 0 && rect.height > 0) {
-            // Calculate visible intersection
-            const visibleLeft = Math.max(rect.left, 0);
-            const visibleRight = Math.min(rect.right, window.innerWidth);
-            
-            // Check if ANY part is visible
-            if (visibleLeft < visibleRight) {
-                const centerX = (visibleLeft + visibleRight) / 2;
-                document.body.style.setProperty('--spotlight-x', `${centerX}px`);
-                spotlightRequest = null;
-                return;
-            }
-        } 
-        
-        // Fallback
-        document.body.style.setProperty('--spotlight-x', '50%');
-        spotlightRequest = null;
-    });
-}
-
-// Update on resize and scroll
-window.addEventListener('resize', updateSpotlightPosition);
-// Wait for DOM to be ready to attach scroll listener or attach to a stable parent if needed.
-// main.js is a module, so DOM should be parsed. .preview is static in HTML.
+// Initialize Spotlight Tracking via Core
+const pdfContainer = document.getElementById('pdf-container');
 const previewContainer = document.querySelector('.preview');
-if (previewContainer) {
-    previewContainer.addEventListener('scroll', updateSpotlightPosition);
+if (pdfContainer) {
+    themeController.trackSpotlight(pdfContainer, previewContainer);
 }
 
 toggleThumbnails.addEventListener('change', (e) => {
@@ -198,7 +162,7 @@ toggleThumbnails.addEventListener('change', (e) => {
         app.classList.remove('with-thumbnails');
     }
     bridge.resize();
-    updateSpotlightPosition();
+    // No need to manually update spotlight, ThemeController's ResizeObserver handles it
 });
 
 pageInput.addEventListener('change', (e) => {
@@ -331,4 +295,5 @@ function updateUI() {
 // bridge.loadDocument();
 
 // Init Spotlight
-updateSpotlightPosition();
+// Handled by ThemeController
+
