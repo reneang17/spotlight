@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "playground"
   ],
   "scripts": {
-    "start": "npm run dev --workspace=@bridge-pdf/playground"
+    "start": "npm run dev --workspace=@bridge-pdf/playground",
+    "dev": "npm run dev --workspace=@bridge-pdf/playground"
   },
   "license": "MIT"
 }

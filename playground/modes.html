@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BridgePDF - Reading Modes Demo</title>
+    <link rel="stylesheet" href="./src/style.css" />
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #sidebar {
+            width: 300px;
+            background: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            z-index: 100; /* Ensure controls are above overlays */
+        }
+        #main-content {
+            flex: 1;
+            position: relative;
+            background: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #pdf-container {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            position: relative;
+        }
+        .mode-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .mode-btn.active {
+            background: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+        .description {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        /* Ensure overlays cover the whole screen but sidebar stays on top */
+        #lamp-overlay {
+            z-index: 50; 
+        }
+        .theme-dark #sidebar {
+            background: #333;
+            color: #fff;
+            border-right: 1px solid #444;
+        }
+        .theme-dark .mode-btn {
+            background: #444;
+            color: #fff;
+            border-color: #555;
+        }
+        .theme-dark .mode-btn.active {
+            background: #007bff;
+            border-color: #007bff;
+        }
+        .theme-dark .description {
+            color: #ccc;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar Controls -->
+    <aside id="sidebar">
+        <h2>Reading Modes</h2>
+        <p class="description">
+            Explore the different viewing experiences provided by <code>ThemeController</code>. 
+            Click a mode to activate it.
+        </p>
+
+        <button class="mode-btn active" data-mode="default">
+            <strong>Default</strong><br>
+            Standard clean viewer with neutral background.
+        </button>
+
+        <button class="mode-btn" data-mode="paper">
+            <strong>Paper Mode</strong><br>
+            Simulates a warm paper texture to reduce eye strain.
+        </button>
+
+        <button class="mode-btn" data-mode="dark">
+            <strong>Dark Mode</strong><br>
+            Inverts colors for low-light environments.
+        </button>
+
+        <button class="mode-btn" data-mode="lamp">
+            <strong>Lamp Mode</strong><br>
+            Dims existing content and adds a warm overlay.
+        </button>
+
+        <button class="mode-btn" data-mode="spotlight">
+            <strong>Spotlight Mode</strong><br>
+            Focuses attention on a specific area, dimming the rest.
+        </button>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ccc;">
+            <a href="index.html" style="text-decoration: none; color: #007bff;">&larr; Back to Main Demo</a>
+        </div>
+    </aside>
+
+    <!-- PDF Viewer -->
+    <main id="main-content">
+        <div id="pdf-container"></div>
+        <!-- Overlay elements for specific themes -->
+        <div id="lamp-overlay"></div>
+    </main>
+
+    <script type="module" src="./src/modes.js"></script>
+  </body>
+</html>
