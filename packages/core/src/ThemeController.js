@@ -63,10 +63,15 @@ export class ThemeController {
   }
 
   updateSpotlightPosition() {
-      if (this.spotlightRequest) return;
+      console.log('[ThemeController] updateSpotlightPosition called');
+      if (this.spotlightRequest) {
+          console.log('[ThemeController] Request pending, skipping');
+          return;
+      }
       if (!this.container) return; 
 
       this.spotlightRequest = requestAnimationFrame(() => {
+          console.log('[ThemeController] RAF executing');
           if (!this.pdfContainer) {
               this.spotlightRequest = null;
               return;
@@ -81,7 +86,7 @@ export class ThemeController {
               
               if (visibleLeft < visibleRight) {
                   const centerX = (visibleLeft + visibleRight) / 2;
-                  // console.log('[ThemeController] Updating Spotlight X:', centerX, 'Rect:', rect.left, rect.width);
+                  console.log('[ThemeController] Updating Spotlight X:', centerX, 'Rect:', rect.left, rect.width);
                   this.container.style.setProperty('--spotlight-x', `${centerX}px`);
                   this.spotlightRequest = null;
                   return;

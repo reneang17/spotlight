@@ -2,7 +2,7 @@
 
 ![Spotlight Demo](spotlight-demo.webp)
 
-**Spotlight** is a lightweight, high-performance PDF viewer for the web. Built on top of `pdf.js`, it provides a headless controller (`BridgePDF`) separate from the visualization layer, giving you full control over the styling and behavior of your PDF viewer.
+**Spotlight** is a lightweight, high-performance PDF viewer for the web. Built on top of `pdf.js`, it provides a powerful abstraction layer (**`BridgePDF`**) separate from the visualization layer. This headless controller gives you full control over the styling and behavior of your PDF viewer, allowing you to easily integrate PDF capabilities into your application without dealing with the complexities of the raw PDF.js API.
 
 It features virtualized rendering for large documents, a customizable definition/quality slider, and a clean, modern UI.
 
@@ -66,7 +66,39 @@ Once initialized, you can control the viewer programmatically:
 - `viewer.setRenderQuality(quality)`: Update the definition/quality dynamically.
 - `viewer.nextMatch() / prevMatch()`: Navigate search results (if search is implemented).
 
+## Reading Modes
+
+We provide a `ThemeController` class to manage reading modes. This controller applies CSS classes to a container (usually `document.body`) to enable different visual themes:
+
+-   **Paper Mode** (`theme-paper`): A warm, textured background to reduce eye strain.
+-   **Dark Mode** (`theme-dark`): Inverted colors for low-light environments.
+-   **Lamp Mode** (`theme-lamp`): Dims content and adds a warm overlay.
+-   **Spotlight Mode** (`theme-spotlight`): Focuses attention on a specific area.
+
+To use:
+
+```javascript
+import { ThemeController } from '@bridge-pdf/core';
+import '@bridge-pdf/core/src/theme.css'; // Import theme styles
+
+const themeController = new ThemeController(document.body);
+
+// Toggle modes
+themeController.togglePaperMode();
+themeController.toggleDarkMode();
+// etc.
+```
+
 ## Running the Demo
+
+We have two demos available in the playground:
+
+1.  **Main Demo**: A full-featured viewer with all controls.
+    -   URL: `http://localhost:5173/` (after running `npm run dev`)
+2.  **Reading Modes Demo**: A dedicated page to showcase the different reading themes.
+    -   URL: `http://localhost:5173/modes.html`
+
+To run them:
 
 1.  Clone the repository:
     ```bash
