@@ -20,11 +20,20 @@ body.theme-paper {
     --text-color: #433422; /* Dark brown text */
     --border-color: #d3cbb7; 
     
-    /* Buttons: Darker tone of theme color */
-    --btn-bg: #e6dfc8; 
+    /* Buttons: Same tone as theme color for flat look */
+    --btn-bg: #dadad6; 
     --btn-text: #5b4a35;
-    --btn-border: #d3cbb7;
-    --btn-hover: #d3cbb7;
+    --btn-border: #bfb7a6; /* Slightly darker border for definition */
+    --btn-hover: #cfc7b6;
+}
+
+/* Specific overrides for Paper Mode inputs/white areas */
+body.theme-paper input,
+body.theme-paper select,
+body.theme-paper textarea {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
 }
 
 /* Dark Theme */
