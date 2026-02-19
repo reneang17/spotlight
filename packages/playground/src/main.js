@@ -185,6 +185,7 @@ toggleAnnotations.addEventListener('change', (e) => {
 });
 
 const toggleLampBtn = document.getElementById('toggle-lamp');
+const toggleSpotlightBtn = document.getElementById('toggle-spotlight');
 
 togglePaperBtn.addEventListener('click', () => {
     const isPaper = themeController.togglePaperMode();
@@ -194,6 +195,7 @@ togglePaperBtn.addEventListener('click', () => {
     if (isPaper) {
         toggleDarkBtn.textContent = "Enable Dark Mode";
         toggleLampBtn.textContent = "Enable Lamp Mode";
+        toggleSpotlightBtn.textContent = "Enable Spotlight Mode";
     }
 });
 
@@ -205,6 +207,7 @@ toggleDarkBtn.addEventListener('click', () => {
     if (isDark) {
         togglePaperBtn.textContent = "Enable Paper Mode";
         toggleLampBtn.textContent = "Enable Lamp Mode";
+        toggleSpotlightBtn.textContent = "Enable Spotlight Mode";
     }
 });
 
@@ -216,6 +219,19 @@ toggleLampBtn.addEventListener('click', () => {
     if (isLamp) {
         togglePaperBtn.textContent = "Enable Paper Mode";
         toggleDarkBtn.textContent = "Enable Dark Mode";
+        toggleSpotlightBtn.textContent = "Enable Spotlight Mode";
+    }
+});
+
+toggleSpotlightBtn.addEventListener('click', () => {
+    const isSpotlight = themeController.toggleSpotlightMode();
+    toggleSpotlightBtn.textContent = isSpotlight ? "Disable Spotlight Mode" : "Enable Spotlight Mode";
+    
+    // Reset others
+    if (isSpotlight) {
+        togglePaperBtn.textContent = "Enable Paper Mode";
+        toggleDarkBtn.textContent = "Enable Dark Mode";
+        toggleLampBtn.textContent = "Enable Lamp Mode";
     }
 });
 

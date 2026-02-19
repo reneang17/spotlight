@@ -89,14 +89,47 @@ body.theme-lamp #lamp-overlay {
     display: block;
 }
 
-/* Lamp Theme Canvas Filters - Warm reading light */
+/* Spotlight Theme */
+body.theme-spotlight {
+    --bg-color: #1a1510; 
+    --sidebar-bg: #2a2018; 
+    --text-color: #eccfa1;
+    --border-color: #4e3b2c;
+    
+    /* Inherit wood texture */
+    background-image: url('./assets/dark_wood_texture.png');
+    background-repeat: repeat;
+    background-size: 512px; 
+    
+    --btn-bg: #3e2f22;
+    --btn-text: #eccfa1;
+    --btn-border: #5c4634;
+    --btn-hover: #4e3b2c;
+}
+
+/* Show overlay when spotlight theme is active with tighter gradient */
+body.theme-spotlight #lamp-overlay {
+    display: block;
+    background: radial-gradient(
+        circle at center, 
+        rgba(255, 230, 200, 0.05) 0%, 
+        rgba(0, 0, 0, 0.3) 20%, 
+        rgba(0, 0, 0, 0.95) 50%,
+        rgba(0, 0, 0, 1) 100%
+    );
+}
+
+/* Lamp/Spotlight Theme Canvas Filters */
 body.theme-lamp .bridge-page-container canvas,
-body.theme-lamp .bridge-thumbnail canvas {
+body.theme-lamp .bridge-thumbnail canvas,
+body.theme-spotlight .bridge-page-container canvas,
+body.theme-spotlight .bridge-thumbnail canvas {
     /* Slight sepia warmth + brightness adjustment */
     filter: sepia(30%) contrast(110%) brightness(90%);
 }
 
-body.theme-lamp .bridge-page-container {
+body.theme-lamp .bridge-page-container,
+body.theme-spotlight .bridge-page-container {
     background-color: #fdf6e3; /* Paper-like base */
     box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Strong shadow for depth on desk */
 }

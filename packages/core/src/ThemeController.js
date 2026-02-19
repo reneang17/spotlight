@@ -39,6 +39,16 @@ export class ThemeController {
       return this.currentTheme === 'lamp';
   }
 
+  toggleSpotlightMode() {
+      if (this.currentTheme === 'spotlight') {
+          this.currentTheme = 'default';
+      } else {
+          this.currentTheme = 'spotlight';
+      }
+      this.applyTheme();
+      return this.currentTheme === 'spotlight';
+  }
+
   applyTheme() {
       if (!this.container) return;
       
@@ -46,6 +56,7 @@ export class ThemeController {
       this.container.classList.remove('theme-paper');
       this.container.classList.remove('theme-dark');
       this.container.classList.remove('theme-lamp');
+      this.container.classList.remove('theme-spotlight');
       
       // Apply current
       if (this.currentTheme === 'paper') {
@@ -54,6 +65,8 @@ export class ThemeController {
           this.container.classList.add('theme-dark');
       } else if (this.currentTheme === 'lamp') {
           this.container.classList.add('theme-lamp');
+      } else if (this.currentTheme === 'spotlight') {
+          this.container.classList.add('theme-spotlight');
       }
   }
 }
