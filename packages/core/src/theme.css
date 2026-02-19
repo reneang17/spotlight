@@ -1,0 +1,203 @@
+/* Spotlight Reading Modes - Theme CSS */
+
+
+
+@property --spotlight-x {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --spotlight-radius {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 30vmax; /* Default to viewport-relative size */
+}
+
+/* 
+   Shared variables for themes. 
+   Users should define --bg-color, --text-color, etc. for their default theme if they wish 
+   ThemeController to toggle back to something specific, otherwise it removes classes 
+   and falls back to user's default CSS.
+*/
+
+/* Paper Theme */
+body.theme-paper {
+    --bg-color: #dadad6; /* Matches filtered PDF color (sepia 30% + contrast 90% + brightness 95%) */
+    --sidebar-bg: #dadad6;
+    --text-color: #433422; /* Dark brown text */
+    --border-color: #d3cbb7; 
+    
+    /* Buttons: Same tone as theme color for flat look */
+    --btn-bg: #dadad6; 
+    --btn-text: #5b4a35;
+    --btn-border: #bfb7a6; /* Slightly darker border for definition */
+    --btn-hover: #cfc7b6;
+    
+    --paper-tint: var(--bg-color);
+}
+
+/* Specific overrides for Paper Mode inputs/white areas */
+body.theme-paper input,
+body.theme-paper select,
+body.theme-paper textarea {
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+/* Dark Theme */
+body.theme-dark {
+    --bg-color: #000000; 
+    --sidebar-bg: #000000; 
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    
+    /* Buttons: Darker tone of theme color */
+    --btn-bg: #111;
+    --btn-text: #ccc;
+    --btn-border: #333;
+    --btn-hover: #222;
+}
+
+/* Dark Theme (Inverted) - Canvas Filters */
+body.theme-dark .bridge-page-container canvas,
+body.theme-dark .bridge-thumbnail canvas {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+body.theme-dark .bridge-page-container {
+    background-color: #333;
+    box-shadow: none; /* Reduce shadow in dark mode */
+}
+
+/* Lamp Theme */
+body.theme-lamp {
+    --bg-color: #1a1510; 
+    --sidebar-bg: #2a2018; 
+    --text-color: #eccfa1;
+    --border-color: #4e3b2c;
+    
+    /* Wood texture background - relative path might break if not bundled correctly. 
+       Best to use data URI or require user to provide asset in a real package.
+       For now, we'll comment out the image or assume it's provided by the app using this CSS.
+       Let's keep the color fallback. */
+    /* background-image: url('./assets/dark_wood_texture.png'); */
+    
+    --btn-bg: #3e2f22;
+    --btn-text: #eccfa1;
+    --btn-border: #5c4634;
+    --btn-hover: #4e3b2c;
+    
+    --paper-tint: #fdf6e3;
+}
+
+/* Lamp Mode Overlay */
+#lamp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+    
+    /* Radial gradient spotlight */
+    background: radial-gradient(
+        circle at var(--spotlight-x, 50%) 50%, 
+        rgba(255, 200, 100, 0.1) 0%, 
+        rgba(0, 0, 0, 0.4) 40%, 
+        rgba(0, 0, 0, 0.85) 90%
+    );
+    mix-blend-mode: multiply; 
+}
+
+/* Show overlay when lamp theme is active */
+body.theme-lamp #lamp-overlay {
+    display: block;
+}
+
+/* Spotlight Theme */
+body.theme-spotlight {
+    --bg-color: #1a1510; 
+    --sidebar-bg: #2a2018; 
+    --text-color: #eccfa1;
+    --border-color: #4e3b2c;
+    
+    /* background-image: url('./assets/dark_wood_texture.png'); */
+    
+    --btn-bg: #3e2f22;
+    --btn-text: #eccfa1;
+    --btn-border: #5c4634;
+    --btn-hover: #4e3b2c;
+    
+    --paper-tint: #fdf6e3;
+}
+
+/* Show overlay when spotlight theme is active with tighter gradient */
+body.theme-spotlight #lamp-overlay {
+    display: block;
+    background: radial-gradient(
+        circle at var(--spotlight-x, 50%) 50%, 
+        rgba(255, 220, 150, 0.15) 0%,   /* Warm/Yellow tint at center */
+        rgba(255, 220, 150, 0.05) var(--spotlight-radius, 25%),  /* Fade warmth at radius edge */
+        rgba(0, 0, 0, 0.2) calc(var(--spotlight-radius, 25%) + 2%),  /* Start darkening quickly */
+        rgba(0, 0, 0, 0.85) calc(var(--spotlight-radius, 25%) + 8%),  /* Reach ambient level shortly */
+        rgba(0, 0, 0, 0.85) 100%         /* Maintain ambient level everywhere else */
+    );
+}
+
+/* Lamp/Spotlight Theme Canvas Filters */
+body.theme-lamp .bridge-page-container canvas,
+body.theme-lamp .bridge-thumbnail canvas,
+body.theme-spotlight .bridge-page-container canvas,
+body.theme-spotlight .bridge-thumbnail canvas {
+    filter: none;
+}
+
+body.theme-lamp .bridge-page-container,
+body.theme-spotlight .bridge-page-container {
+    background-color: #fdf6e3; /* Paper-like base */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Strong shadow for depth */
+}
+
+/* Unified Paper Tinting (Overlay) */
+body.theme-paper .bridge-page-container,
+body.theme-paper .bridge-thumbnail,
+body.theme-lamp .bridge-page-container,
+body.theme-lamp .bridge-thumbnail,
+body.theme-spotlight .bridge-page-container,
+body.theme-spotlight .bridge-thumbnail {
+    position: relative;
+    /* Ensure base is white so multiply blend works correctly */
+    background-color: #ffffff;
+}
+
+body.theme-paper .bridge-page-container::after,
+body.theme-paper .bridge-thumbnail::after,
+body.theme-lamp .bridge-page-container::after,
+body.theme-lamp .bridge-thumbnail::after,
+body.theme-spotlight .bridge-page-container::after,
+body.theme-spotlight .bridge-thumbnail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--paper-tint);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Remove filters from canvas as we use overlay now */
+body.theme-paper .bridge-page-container canvas,
+body.theme-paper .bridge-thumbnail canvas,
+body.theme-lamp .bridge-page-container canvas,
+body.theme-lamp .bridge-thumbnail canvas,
+body.theme-spotlight .bridge-page-container canvas,
+body.theme-spotlight .bridge-thumbnail canvas {
+    filter: none;
+}
