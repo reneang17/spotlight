@@ -13,158 +13,7 @@
   --page-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Enable interpolation for spotlight variables */
-@property --spotlight-x {
-  syntax: '<length-percentage>';
-  inherits: true;
-  initial-value: 50%;
-}
-
-@property --spotlight-radius {
-  syntax: '<percentage>';
-  inherits: true;
-  initial-value: 25%;
-}
-
-/* Paper Theme */
-body.theme-paper {
-    --bg-color: #dadad6; /* Matches filtered PDF color (sepia 30% + contrast 90% + brightness 95%) */
-    --sidebar-bg: #dadad6;
-    --text-color: #433422; /* Dark brown text */
-    --border-color: #d3cbb7; 
-    
-    /* Buttons: Same tone as theme color for flat look */
-    --btn-bg: #dadad6; 
-    --btn-text: #5b4a35;
-    --btn-border: #bfb7a6; /* Slightly darker border for definition */
-    --btn-hover: #cfc7b6;
-}
-
-/* Specific overrides for Paper Mode inputs/white areas */
-body.theme-paper input,
-body.theme-paper select,
-body.theme-paper textarea {
-    background-color: var(--bg-color);
-    border-color: var(--border-color);
-    color: var(--text-color);
-}
-
-/* Dark Theme */
-body.theme-dark {
-    --bg-color: #000000; 
-    --sidebar-bg: #000000; 
-    --text-color: #e0e0e0;
-    --border-color: #333;
-    
-    /* Buttons: Darker tone of theme color */
-    /* Black background, buttons slightly lighter to be visible, but very dark */
-    --btn-bg: #111;
-    --btn-text: #ccc;
-    --btn-border: #333;
-    --btn-hover: #222;
-}
-
-/* Lamp Theme */
-body.theme-lamp {
-    --bg-color: #1a1510; 
-    --sidebar-bg: #2a2018; 
-    --text-color: #eccfa1;
-    --border-color: #4e3b2c;
-    
-    /* Wood texture background */
-    background-image: url('./assets/dark_wood_texture.png');
-    background-repeat: repeat;
-    background-size: 512px; 
-    
-    --btn-bg: #3e2f22;
-    --btn-text: #eccfa1;
-    --btn-border: #5c4634;
-    --btn-hover: #4e3b2c;
-}
-
-/* Lamp Mode Overlay */
-#lamp-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 1000;
-    display: none;
-    
-    /* Radial gradient spotlight: 
-       Center is warm/transparent allowing content to show.
-       Edges are dark to simulate vignette/shadow.
-       Now uses --spotlight-x for dynamic centering.
-    */
-    background: radial-gradient(
-        circle at var(--spotlight-x, 50%) 50%, 
-        rgba(255, 200, 100, 0.1) 0%, 
-        rgba(0, 0, 0, 0.4) 40%, 
-        rgba(0, 0, 0, 0.85) 90%
-    );
-    mix-blend-mode: multiply; /* Or overlay/soft-light depending on taste */
-}
-
-/* Show overlay when lamp theme is active */
-body.theme-lamp #lamp-overlay {
-    display: block;
-}
-
-/* Spotlight Theme */
-body.theme-spotlight {
-    --bg-color: #1a1510; 
-    --sidebar-bg: #2a2018; 
-    --text-color: #eccfa1;
-    --border-color: #4e3b2c;
-    
-    /* Inherit wood texture */
-    background-image: url('./assets/dark_wood_texture.png');
-    background-repeat: repeat;
-    background-size: 512px; 
-    
-    --btn-bg: #3e2f22;
-    --btn-text: #eccfa1;
-    --btn-border: #5c4634;
-    --btn-hover: #4e3b2c;
-}
-
-/* Show overlay when spotlight theme is active with tighter gradient */
-body.theme-spotlight #lamp-overlay {
-    display: block;
-    /* 
-       Use CSS variable for X position (default 50% if not set).
-       Use CSS variable for Radius (default 25% if not set).
-       Refined Gradient:
-       - 0 to Radius: Yellowish/Bright Center (Spotlight).
-       - Radius to Radius+5%: Gradual Transition to Dim.
-       - Radius+5% to 100%: Uniform Ambient Dimness (slightly lighter - 0.85 to show controls).
-    */
-    background: radial-gradient(
-        circle at var(--spotlight-x, 50%) 50%, 
-        rgba(255, 220, 150, 0.15) 0%,   /* Warm/Yellow tint at center */
-        rgba(255, 220, 150, 0.05) var(--spotlight-radius, 25%),  /* Fade warmth at radius edge */
-        rgba(0, 0, 0, 0.2) calc(var(--spotlight-radius, 25%) + 2%),  /* Start darkening quickly */
-        rgba(0, 0, 0, 0.85) calc(var(--spotlight-radius, 25%) + 8%),  /* Reach ambient level shortly */
-        rgba(0, 0, 0, 0.85) 100%         /* Maintain ambient level everywhere else */
-    );
-}
-
-/* Lamp/Spotlight Theme Canvas Filters */
-body.theme-lamp .bridge-page-container canvas,
-body.theme-lamp .bridge-thumbnail canvas,
-body.theme-spotlight .bridge-page-container canvas,
-body.theme-spotlight .bridge-thumbnail canvas {
-    /* Filter removed in favor of unified overlay mix-blend-mode */
-    filter: none;
-}
-
-body.theme-lamp .bridge-page-container,
-body.theme-spotlight .bridge-page-container {
-    background-color: #fdf6e3; /* Paper-like base */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Strong shadow for depth on desk */
-}
+/* Theme styles moved to @bridge-pdf/core/src/theme.css */
 
 * {
   box-sizing: border-box;
@@ -177,7 +26,7 @@ body {
   color: var(--text-color);
   height: 100vh;
   overflow: hidden;
-  transition: background-color 0.3s, color 0.3s, --spotlight-x 0.3s ease, --spotlight-radius 0.3s ease;
+  transition: background-color 0.3s, color 0.3s, --spotlight-radius 0.3s ease;
 }
 
 #app {
@@ -323,68 +172,9 @@ aside {
     transition: filter 0.3s ease;
 }
 
-/* Unified Paper Tinting (Overlay) */
-/* Applies to Paper, Lamp, and Spotlight themes to ensure consistent rendering across browsers */
-
-
-body.theme-paper {
-    --paper-tint: var(--bg-color); /* Matches background */
-}
-
-body.theme-lamp,
-body.theme-spotlight {
-    --paper-tint: #fdf6e3; /* Solarized light (classic paper look) */
-}
-
-body.theme-paper .bridge-page-container,
-body.theme-paper .bridge-thumbnail,
-body.theme-lamp .bridge-page-container,
-body.theme-lamp .bridge-thumbnail,
-body.theme-spotlight .bridge-page-container,
-body.theme-spotlight .bridge-thumbnail {
-    position: relative;
-    /* Ensure base is white so multiply blend works correctly */
-    background-color: #ffffff;
-}
-
-body.theme-paper .bridge-page-container::after,
-body.theme-paper .bridge-thumbnail::after,
-body.theme-lamp .bridge-page-container::after,
-body.theme-lamp .bridge-thumbnail::after,
-body.theme-spotlight .bridge-page-container::after,
-body.theme-spotlight .bridge-thumbnail::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--paper-tint);
-    mix-blend-mode: multiply;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* Remove filters from canvas as we use overlay now */
-body.theme-paper .bridge-page-container canvas,
-body.theme-paper .bridge-thumbnail canvas,
-body.theme-lamp .bridge-page-container canvas,
-body.theme-lamp .bridge-thumbnail canvas,
-body.theme-spotlight .bridge-page-container canvas,
-body.theme-spotlight .bridge-thumbnail canvas {
-    filter: none;
-}
-
-/* Dark Theme (Inverted) */
-body.theme-dark .bridge-page-container canvas,
-body.theme-dark .bridge-thumbnail canvas {
-    filter: invert(100%) hue-rotate(180deg);
-}
-
-body.theme-dark .bridge-page-container {
-    background-color: #333;
-    box-shadow: none; /* Reduce shadow in dark mode */
-}
+/* 
+  Removed theme overrides for bridge-page-container 
+*/
 
 canvas {
   display: block;
