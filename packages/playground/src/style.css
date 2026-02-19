@@ -16,7 +16,7 @@
 /* Paper Theme */
 body.theme-paper {
     --bg-color: #fdf6e3; /* Solarized Light base */
-    --sidebar-bg: #eee8d5; /* Slightly darker beige */
+    --sidebar-bg: #fdf6e3; /* Unified paper background */
     --text-color: #433422; /* Dark brown text */
     --border-color: #d3cbb7; 
     
