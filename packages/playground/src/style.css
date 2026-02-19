@@ -249,7 +249,7 @@ body.theme-paper .bridge-thumbnail canvas {
 }
 
 body.theme-paper .bridge-page-container {
-    background-color: #fdf6e3; 
+    background-color: var(--bg-color); 
 }
 
 /* Dark Theme (Inverted) */
