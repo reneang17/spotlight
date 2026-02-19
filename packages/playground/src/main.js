@@ -61,10 +61,10 @@ bridge.on('document-loaded', (data) => {
   
   // Mobile Auto-Fit Width Logic
   if (window.innerWidth <= 768) {
-      const containerWidth = container.clientWidth;
+      const containerWidth = window.innerWidth; // Use full window width for edge-to-edge
       const pdfWidth = data.proportions.width;
       if (pdfWidth > 0 && containerWidth > 0) {
-          const scale = (containerWidth - 20) / pdfWidth; // -20 for padding/margin safety
+          const scale = containerWidth / pdfWidth; // Exact fit, no padding
           // Set state directly to affect initial render
           bridge.state.zoomLevel = scale;
           // Update UI
