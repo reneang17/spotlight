@@ -1,4 +1,4 @@
-import { BridgePDF } from '@bridge-pdf/core';
+import { BridgePDF, ThemeController } from '@bridge-pdf/core';
 
 const container = document.getElementById('pdf-container');
 const prevBtn = document.getElementById('prev-page');
@@ -30,6 +30,8 @@ const bridge = new BridgePDF(container, {
   workerUrl: '/pdf.worker.min.mjs',
   enableAnnotationLayer: toggleAnnotations.checked
 });
+
+const themeController = new ThemeController(container);
 
 bridge.setThumbnailContainer(thumbnailContainer);
 
@@ -183,14 +185,14 @@ toggleAnnotations.addEventListener('change', (e) => {
 });
 
 togglePaperBtn.addEventListener('click', () => {
-    const isPaper = bridge.togglePaperMode();
+    const isPaper = themeController.togglePaperMode();
     togglePaperBtn.textContent = isPaper ? "Disable Paper Mode" : "Enable Paper Mode";
     // Ensure Dark Mode UI is reset if mutually exclusive (handled by controller but update UI)
     if (isPaper) toggleDarkBtn.textContent = "Enable Dark Mode";
 });
 
 toggleDarkBtn.addEventListener('click', () => {
-    const isDark = bridge.toggleDarkMode();
+    const isDark = themeController.toggleDarkMode();
     toggleDarkBtn.textContent = isDark ? "Disable Dark Mode" : "Enable Dark Mode";
     // Reset Paper Mode UI
     if (isDark) togglePaperBtn.textContent = "Enable Paper Mode";

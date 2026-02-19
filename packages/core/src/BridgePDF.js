@@ -3,7 +3,6 @@ import { EventBus } from './EventBus.js';
 import { SmartWorker } from './utils/SmartWorker.js';
 
 import { ThumbnailViewer } from './utils/ThumbnailViewer.js';
-import { ThemeController } from './utils/ThemeController.js';
 
 export class BridgePDF {
   constructor(container, options = {}) {
@@ -35,21 +34,12 @@ export class BridgePDF {
     SmartWorker.configure(this.options.workerUrl);
 
     this.thumbnailViewer = new ThumbnailViewer(this);
-    this.themeController = new ThemeController(this.container);
 
     // Bind methods
     this.loadDocument = this.loadDocument.bind(this);
     this.renderPage = this.renderPage.bind(this);
     this.renderThumbnail = this.renderThumbnail.bind(this);
     this.goToPage = this.goToPage.bind(this);
-  }
-
-  togglePaperMode() {
-      return this.themeController.togglePaperMode();
-  }
-
-  toggleDarkMode() {
-      return this.themeController.toggleDarkMode();
   }
 
   setThumbnailContainer(container) {
