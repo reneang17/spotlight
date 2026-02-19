@@ -112,18 +112,19 @@ body.theme-spotlight #lamp-overlay {
     display: block;
     /* 
        Use CSS variable for X position (default 50% if not set).
+       Use CSS variable for Radius (default 25% if not set).
        Refined Gradient:
-       - 0-25%: Yellowish/Bright Center (Spotlight).
-       - 25-50%: Transition to Dim.
-       - 50-100%: Uniform Ambient Dimness (leaving controls visible but dark).
+       - 0 to Radius: Yellowish/Bright Center (Spotlight).
+       - Radius to Radius+5%: Gradual Transition to Dim.
+       - Radius+5% to 100%: Uniform Ambient Dimness (leaving controls visible but dark).
     */
     background: radial-gradient(
         circle at var(--spotlight-x, 50%) 50%, 
         rgba(255, 220, 150, 0.15) 0%,   /* Warm/Yellow tint at center */
-        rgba(255, 220, 150, 0.05) 25%,  /* Fade warmth */
-        rgba(0, 0, 0, 0.2) 30%,         /* Begin darkening */
-        rgba(0, 0, 0, 0.8) 50%,         /* Reach ambient level */
-        rgba(0, 0, 0, 0.8) 100%         /* Maintain ambient level everywhere else */
+        rgba(255, 220, 150, 0.05) var(--spotlight-radius, 25%),  /* Fade warmth at radius edge */
+        rgba(0, 0, 0, 0.2) calc(var(--spotlight-radius, 25%) + 2%),  /* Start darkening quickly */
+        rgba(0, 0, 0, 0.9) calc(var(--spotlight-radius, 25%) + 8%),  /* Reach ambient level shortly */
+        rgba(0, 0, 0, 0.9) 100%         /* Maintain ambient level everywhere else */
     );
 }
 

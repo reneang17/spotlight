@@ -236,9 +236,15 @@ toggleLampBtn.addEventListener('click', () => {
     }
 });
 
+const spotlightControls = document.getElementById('spotlight-controls');
+const spotlightSizeSlider = document.getElementById('spotlight-size-slider');
+
 toggleSpotlightBtn.addEventListener('click', () => {
     const isSpotlight = themeController.toggleSpotlightMode();
     toggleSpotlightBtn.textContent = isSpotlight ? "Disable Spotlight Mode" : "Enable Spotlight Mode";
+    
+    // Toggle controls visibility
+    spotlightControls.style.display = isSpotlight ? 'block' : 'none';
     
     // Reset others
     if (isSpotlight) {
@@ -246,6 +252,11 @@ toggleSpotlightBtn.addEventListener('click', () => {
         toggleDarkBtn.textContent = "Enable Dark Mode";
         toggleLampBtn.textContent = "Enable Lamp Mode";
     }
+});
+
+spotlightSizeSlider.addEventListener('input', (e) => {
+    const size = e.target.value;
+    document.body.style.setProperty('--spotlight-radius', `${size}%`);
 });
 
 function updateUI() {
