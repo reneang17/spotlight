@@ -108,6 +108,17 @@ backHomeBtn.addEventListener('click', () => {
 });
 
 
+// Spotlight Positioning Logic
+function updateSpotlightPosition() {
+    const sidebarWidth = document.getElementById('app').classList.contains('with-thumbnails') ? 450 : 250;
+    const windowWidth = window.innerWidth;
+    const centerX = sidebarWidth + (windowWidth - sidebarWidth) / 2;
+    // Set CSS variable on body or overlay
+    document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+}
+
+// Update on resize
+window.addEventListener('resize', updateSpotlightPosition);
 
 toggleThumbnails.addEventListener('change', (e) => {
     const app = document.getElementById('app');
@@ -122,6 +133,8 @@ toggleThumbnails.addEventListener('change', (e) => {
         thumbnailContainer.classList.remove('visible');
         app.classList.remove('with-thumbnails');
     }
+    bridge.resize();
+    updateSpotlightPosition();
 });
 
 pageInput.addEventListener('change', (e) => {
@@ -241,3 +254,6 @@ function updateUI() {
 
 // Initial Load handled by landing page
 // bridge.loadDocument();
+
+// Init Spotlight
+updateSpotlightPosition();
