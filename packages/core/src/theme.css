@@ -101,7 +101,8 @@ body.theme-lamp {
     height: 100vh;
     pointer-events: none;
     z-index: 1000;
-    display: none;
+    opacity: 0; /* Hidden by default via opacity */
+    transition: opacity 0.5s ease; /* Smooth fade in/out */
     
     /* Radial gradient spotlight */
     background: radial-gradient(
@@ -115,7 +116,7 @@ body.theme-lamp {
 
 /* Show overlay when lamp theme is active */
 body.theme-lamp #lamp-overlay {
-    display: block;
+    opacity: 1;
 }
 
 /* Spotlight Theme */
@@ -137,7 +138,7 @@ body.theme-spotlight {
 
 /* Show overlay when spotlight theme is active with tighter gradient */
 body.theme-spotlight #lamp-overlay {
-    display: block;
+    opacity: 1;
     background: radial-gradient(
         circle at var(--spotlight-x, 50%) 50%, 
         rgba(255, 220, 150, 0.15) 0%,   /* Warm/Yellow tint at center */
