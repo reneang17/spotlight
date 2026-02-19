@@ -33,7 +33,6 @@ toggleSidebarBtn.addEventListener('click', () => {
     appContainer.classList.toggle('sidebar-collapsed');
     // Resize bridge to fit new width
     setTimeout(() => {
-    setTimeout(() => {
         bridge.resize();
         // Spotlight updates automatically via ResizeObserver
     }, 300); // Wait for transition if any, or immediate
