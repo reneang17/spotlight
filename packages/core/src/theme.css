@@ -119,6 +119,10 @@ body.theme-lamp #lamp-overlay {
     opacity: 1;
 }
 
+body.theme-lamp, body.theme-spotlight {
+    transition: background-color 0s, color 0s;
+}
+
 /* Spotlight Theme */
 body.theme-spotlight {
     --bg-color: #1a1510; 
