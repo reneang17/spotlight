@@ -126,12 +126,18 @@ backHomeBtn.addEventListener('click', () => {
 
 
 // Spotlight Positioning Logic
+// Spotlight Positioning Logic
 function updateSpotlightPosition() {
-    const preview = document.querySelector('.preview');
-    if (preview) {
-        const rect = preview.getBoundingClientRect();
+    const pdfContainer = document.getElementById('pdf-container');
+    const rect = pdfContainer.getBoundingClientRect();
+    
+    // Check if container is visible and has width
+    if (rect.width > 0 && rect.height > 0) {
         const centerX = rect.left + rect.width / 2;
         document.body.style.setProperty('--spotlight-x', `${centerX}px`);
+    } else {
+        // Fallback to window center if container is hidden or 0 size
+        document.body.style.setProperty('--spotlight-x', '50%');
     }
 }
 
