@@ -112,24 +112,18 @@ body.theme-spotlight #lamp-overlay {
     display: block;
     /* 
        Use CSS variable for X position (default 50% if not set).
-       Adjust colors: 
-       - Center: Clear/Warm.
-       - Mid: Dimming.
-       - Edge: Dark but not opaque (0.85) to allow controls to be seen (dim ambient light).
+       Refined Gradient:
+       - 0-25%: Yellowish/Bright Center (Spotlight).
+       - 25-50%: Transition to Dim.
+       - 50-100%: Uniform Ambient Dimness (leaving controls visible but dark).
     */
     background: radial-gradient(
         circle at var(--spotlight-x, 50%) 50%, 
-        rgba(255, 230, 200, 0.05) 0%, 
-        rgba(0, 0, 0, 0.3) 15%, 
-        rgba(0, 0, 0, 0.85) 40%,
-        rgba(0, 0, 0, 0.92) 100%
-    );
-     background: radial-gradient(
-        circle at var(--spotlight-x, 50%) 50%, 
-        rgba(255, 230, 200, 0.05) 0%, 
-        rgba(0, 0, 0, 0.4) 20%, 
-        rgba(0, 0, 0, 0.8) 50%,   /* Dimmed but visible */
-        rgba(0, 0, 0, 0.9) 100%
+        rgba(255, 220, 150, 0.15) 0%,   /* Warm/Yellow tint at center */
+        rgba(255, 220, 150, 0.05) 25%,  /* Fade warmth */
+        rgba(0, 0, 0, 0.2) 30%,         /* Begin darkening */
+        rgba(0, 0, 0, 0.8) 50%,         /* Reach ambient level */
+        rgba(0, 0, 0, 0.8) 100%         /* Maintain ambient level everywhere else */
     );
 }
 
