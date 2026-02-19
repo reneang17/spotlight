@@ -3,7 +3,6 @@ export class ThemeController {
     this.container = container;
     this.spotlightRequest = null;
     this.pdfContainer = null;
-    this.scrollContainer = null;
     this.resizeObserver = null;
     this.boundUpdateSpotlight = this.updateSpotlightPosition.bind(this);
     this.isTracking = false;
@@ -15,9 +14,8 @@ export class ThemeController {
   }
 
   /* Spotlight Tracking Logic */
-  trackSpotlight(pdfContainer, scrollContainer) {
+  trackSpotlight(pdfContainer) {
       this.pdfContainer = pdfContainer;
-      this.scrollContainer = scrollContainer;
       
       // Initialize ResizeObserver
       if (this.pdfContainer && !this.resizeObserver) {
@@ -40,9 +38,6 @@ export class ThemeController {
       
       // Listeners
       window.addEventListener('resize', this.boundUpdateSpotlight);
-      if (this.scrollContainer) {
-          this.scrollContainer.addEventListener('scroll', this.boundUpdateSpotlight);
-      }
       if (this.resizeObserver) {
           this.resizeObserver.observe(this.pdfContainer);
       }
@@ -57,9 +52,6 @@ export class ThemeController {
       this.isTracking = false;
       
       window.removeEventListener('resize', this.boundUpdateSpotlight);
-      if (this.scrollContainer) {
-          this.scrollContainer.removeEventListener('scroll', this.boundUpdateSpotlight);
-      }
       if (this.resizeObserver) {
           this.resizeObserver.disconnect();
       }

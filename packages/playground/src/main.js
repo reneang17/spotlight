@@ -142,9 +142,9 @@ backHomeBtn.addEventListener('click', () => {
 
 // Initialize Spotlight Tracking via Core
 const pdfContainer = document.getElementById('pdf-container');
-const previewContainer = document.querySelector('.preview');
+// const previewContainer = document.querySelector('.preview'); // No longer needed for scrolling
 if (pdfContainer) {
-    themeController.trackSpotlight(pdfContainer, previewContainer);
+    themeController.trackSpotlight(pdfContainer);
 }
 
 toggleThumbnails.addEventListener('change', (e) => {
