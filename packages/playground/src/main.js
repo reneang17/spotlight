@@ -58,6 +58,20 @@ let currentPage = 1;
 bridge.on('document-loaded', (data) => {
   totalPagesSpan.textContent = data.totalPages;
   console.log('Document Proportions:', data.proportions);
+  
+  // Mobile Auto-Fit Width Logic
+  if (window.innerWidth <= 768) {
+      const containerWidth = container.clientWidth;
+      const pdfWidth = data.proportions.width;
+      if (pdfWidth > 0 && containerWidth > 0) {
+          const scale = (containerWidth - 20) / pdfWidth; // -20 for padding/margin safety
+          // Set state directly to affect initial render
+          bridge.state.zoomLevel = scale;
+          // Update UI
+          zoomLevelSpan.textContent = `${Math.round(scale * 100)}%`;
+      }
+  }
+
   currentPage = 1;
   updateUI();
 });
