@@ -162,7 +162,10 @@ toggleThumbnails.addEventListener('change', (e) => {
     }
     bridge.resize();
     // Explicitly update spotlight to handle layout shift
-    themeController.updateSpotlightPosition();
+    // Use setTimeout to ensure DOM reflow has completed
+    setTimeout(() => {
+        themeController.updateSpotlightPosition();
+    }, 10);
 });
 
 pageInput.addEventListener('change', (e) => {

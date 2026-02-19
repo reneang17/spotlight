@@ -81,6 +81,7 @@ export class ThemeController {
               
               if (visibleLeft < visibleRight) {
                   const centerX = (visibleLeft + visibleRight) / 2;
+                  // console.log('[ThemeController] Updating Spotlight X:', centerX, 'Rect:', rect.left, rect.width);
                   this.container.style.setProperty('--spotlight-x', `${centerX}px`);
                   this.spotlightRequest = null;
                   return;
@@ -88,6 +89,7 @@ export class ThemeController {
           } 
           
           // Fallback
+          // console.log('[ThemeController] Spotlight Fallback 50%');
           this.container.style.setProperty('--spotlight-x', '50%');
           this.spotlightRequest = null;
       });
