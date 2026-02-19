@@ -193,10 +193,7 @@ body {
     }
 }
 
-/* Default state for mobile menu btn on desktop */
-.mobile-menu-btn {
-    display: none;
-}
+
 
 aside {
   background: var(--sidebar-bg);
