@@ -13,6 +13,19 @@
   --page-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+/* Enable interpolation for spotlight variables */
+@property --spotlight-x {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --spotlight-radius {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 25%;
+}
+
 /* Paper Theme */
 body.theme-paper {
     --bg-color: #dadad6; /* Matches filtered PDF color (sepia 30% + contrast 90% + brightness 95%) */
@@ -164,7 +177,7 @@ body {
   color: var(--text-color);
   height: 100vh;
   overflow: hidden;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, --spotlight-x 0.3s ease, --spotlight-radius 0.3s ease;
 }
 
 #app {
