@@ -15,8 +15,8 @@
 
 /* Paper Theme */
 body.theme-paper {
-    --bg-color: #fdf6e3; /* Solarized Light base */
-    --sidebar-bg: #fdf6e3; /* Unified paper background */
+    --bg-color: #dadad6; /* Matches filtered PDF color (sepia 30% + contrast 90% + brightness 95%) */
+    --sidebar-bg: #dadad6;
     --text-color: #433422; /* Dark brown text */
     --border-color: #d3cbb7; 
     
