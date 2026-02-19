@@ -89,7 +89,8 @@ body.theme-lamp {
     --btn-border: #5c4634;
     --btn-hover: #4e3b2c;
     
-    --paper-tint: #dadad6;
+    /* --paper-tint: #fdf6e3; < Old Cream Color */
+    --paper-tint: #dadad6; /* Match Paper Mode */
 }
 
 /* Lamp Mode Overlay */
@@ -137,7 +138,8 @@ body.theme-spotlight {
     --btn-border: #5c4634;
     --btn-hover: #4e3b2c;
     
-    --paper-tint: #dadad6;
+    /* --paper-tint: #fdf6e3; < Old Cream Color */
+    --paper-tint: #dadad6; /* Match Paper Mode */
 }
 
 /* Show overlay when spotlight theme is active with tighter gradient */
@@ -163,7 +165,7 @@ body.theme-spotlight .bridge-thumbnail canvas {
 
 body.theme-lamp .bridge-page-container,
 body.theme-spotlight .bridge-page-container {
-    background-color: #dadad6; /* Paper-like base */
+    background-color: #dadad6; /* Match Paper Mode */
     box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Strong shadow for depth */
 }
 
