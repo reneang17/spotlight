@@ -243,13 +243,37 @@ aside {
 }
 
 /* Paper Theme (Sepia) */
+/* Paper Theme (Overlay) - Ensures exact match with background */
+body.theme-paper .bridge-page-container,
+body.theme-paper .bridge-thumbnail {
+    position: relative;
+}
+
+body.theme-paper .bridge-page-container::after,
+body.theme-paper .bridge-thumbnail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-color);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Remove filter from canvas as we use overlay now */
 body.theme-paper .bridge-page-container canvas,
 body.theme-paper .bridge-thumbnail canvas {
-    filter: sepia(30%) contrast(90%) brightness(95%);
+    filter: none;
 }
 
 body.theme-paper .bridge-page-container {
-    background-color: var(--bg-color); 
+     /* Background color is handled by overlay blending with white base, 
+        but we keep this for gaps or loading states if needed. 
+        Actually, for the blend to work right, the base should be white. */
+    background-color: #ffffff; 
 }
 
 /* Dark Theme (Inverted) */
