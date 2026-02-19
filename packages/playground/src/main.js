@@ -31,7 +31,7 @@ const bridge = new BridgePDF(container, {
   enableAnnotationLayer: toggleAnnotations.checked
 });
 
-const themeController = new ThemeController(container);
+const themeController = new ThemeController(document.body);
 
 bridge.setThumbnailContainer(thumbnailContainer);
 
