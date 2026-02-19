@@ -24,6 +24,23 @@ const qualitySlider = document.getElementById('quality-slider');
 const qualityVal = document.getElementById('quality-val');
 const togglePaperBtn = document.getElementById('toggle-paper');
 const toggleDarkBtn = document.getElementById('toggle-dark');
+const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+const appContainer = document.getElementById('app');
+
+// Sidebar Toggle Logic
+toggleSidebarBtn.addEventListener('click', () => {
+    appContainer.classList.toggle('sidebar-collapsed');
+    // Resize bridge to fit new width
+    setTimeout(() => {
+        bridge.resize();
+        updateSpotlightPosition();
+    }, 300); // Wait for transition if any, or immediate
+});
+
+// Auto-collapse on mobile/small screens initially
+if (window.innerWidth <= 768) {
+    appContainer.classList.add('sidebar-collapsed');
+}
 
 // Initialize BridgePDF (Empty initially)
 const bridge = new BridgePDF(container, {

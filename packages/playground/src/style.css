@@ -203,6 +203,68 @@ body {
     display: block;
 }
 
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Ensure it floats above content */
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--btn-border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+    /* Adjust based on sidebar visibility? */
+}
+
+.sidebar-toggle:hover {
+    background: var(--btn-hover);
+}
+
+/* Collapsed State */
+#app.sidebar-collapsed {
+    grid-template-columns: 0px 1fr !important; /* Force hide col 1 */
+}
+
+#app.sidebar-collapsed.with-thumbnails {
+    grid-template-columns: 0px 200px 1fr !important;
+}
+
+#app.sidebar-collapsed aside {
+    display: none;
+    padding: 0; /* Remove padding to avoid width issues */
+    border: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Interactive Mobile Sidebar (Overlay) */
+    #app:not(.sidebar-collapsed) {
+        position: relative;
+        /* When open on mobile, make grid just 1 col (content) but sidebar overlays it */
+        display: block; /* Break grid to allow absolute positioning easier? Or keep grid 1fr? */
+        /* Actually simpler: separate flow */
+    }
+
+    #app:not(.sidebar-collapsed) aside {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 85%;
+        max-width: 300px;
+        z-index: 900;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+    }
+    
+    /* Ensure toggle button moves or stays visible? 
+       Fixed top-left is fine. */
+}
+
 aside {
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
