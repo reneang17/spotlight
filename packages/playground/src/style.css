@@ -74,9 +74,10 @@ body.theme-lamp {
     /* Radial gradient spotlight: 
        Center is warm/transparent allowing content to show.
        Edges are dark to simulate vignette/shadow.
+       Now uses --spotlight-x for dynamic centering.
     */
     background: radial-gradient(
-        circle at center, 
+        circle at var(--spotlight-x, 50%) 50%, 
         rgba(255, 200, 100, 0.1) 0%, 
         rgba(0, 0, 0, 0.4) 40%, 
         rgba(0, 0, 0, 0.85) 90%
