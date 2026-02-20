@@ -1,10 +1,11 @@
 # Spotlight PDF Viewer
 
-![Spotlight Demo](spotlight-demo.webp)
+![Spotlight Demo](media/spotlight-demo.gif)
 
-**Spotlight** is a lightweight, high-performance PDF viewer for the web. Built on top of `pdf.js`, it provides a powerful abstraction layer (**`BridgePDF`**) separate from the visualization layer. This headless controller gives you full control over the styling and behavior of your PDF viewer, allowing you to easily integrate PDF capabilities into your application without dealing with the complexities of the raw PDF.js API.
+This is a web reader application. It has a level of abstraction of PDF.js in the core packages. It includes both the logical part of the navigation and also some particular themes I made to make the experience of reading on a display really pleasant.
 
-It features virtualized rendering for large documents, a customizable definition/quality slider, and a clean, modern UI.
+The demo above corresponds to the code in the `playground` directory, and the service itself can be visited at the GitHub Pages of the code repo:
+[https://reneang17.github.io/spotlight/](https://reneang17.github.io/spotlight/)
 
 ## Features
 
@@ -21,12 +22,13 @@ To use Spotlight in your own project, you can import the `BridgePDF` class and i
 ### 1. Installation
 
 (Coming soon to npm)
-For now, you can copy the `packages/core` directory into your project.
+For now, you can copy the `packages/core` directory into your project, or use it via standard workspace imports (`@bridge-pdf/core`) if using a monorepo setup.
 
 ### 2. Basic Setup
 
 ```javascript
-import { BridgePDF } from './path/to/core/BridgePDF.js';
+import { BridgePDF } from '@bridge-pdf/core';
+import '@bridge-pdf/core/src/theme.css'; // Optional: if using themes
 
 // 1. Select the container where the PDF will be rendered
 const container = document.getElementById('pdf-container');
