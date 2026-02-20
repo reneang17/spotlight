@@ -1,8 +1,13 @@
-# Spotlight PDF Viewer
+# Spotlight - A Beautiful & Functional PDF Reader
 
-![Spotlight Demo](media/spotlight-demo.gif)
+This project is a web-based reading application built on top of a structured abstraction layer over PDF.js within its core packages.
+At its heart, the application separates concerns between rendering, navigation logic, and presentation. It implements a clean abstraction over the PDF engine, enabling flexible navigation and extensibility without coupling the UI directly to the rendering layer.
 
-This is a web reader application. It has a level of abstraction of PDF.js in the core packages. It includes both the logical part of the navigation and also some particular themes I made to make the experience of reading on a display really pleasant.
+Beyond the core logic, the project includes a set of carefully crafted themes designed to enhance long-form reading on digital displays. The focus is on visual comfort, clarity, and an immersive reading experience — making on-screen reading feel natural and enjoyable.
+
+<div align="center">
+  <img src="media/spotlight-demo.gif" alt="Spotlight Demo">
+</div>
 
 The demo above corresponds to the code in the `playground` directory, and the service itself can be visited at the GitHub Pages of the code repo:
 [https://reneang17.github.io/spotlight/](https://reneang17.github.io/spotlight/)
