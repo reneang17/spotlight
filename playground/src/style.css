@@ -101,7 +101,7 @@ body {
   min-width: 600px; 
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  margin: 0 auto;
 }
 
 /* Default state for mobile menu btn on desktop */
@@ -210,8 +210,6 @@ aside {
   padding: 2rem;
   overflow: auto;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   background-color: var(--bg-color); /* Ensure preview matches body */
   transition: background-color 0.3s;
 }
@@ -223,6 +221,8 @@ aside {
     background: white;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     transition: filter 0.3s ease;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* 
